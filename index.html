@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Jokes for Everyone</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+            background: linear-gradient(to bottom, #b3e5fc, #ffffff);
+            color: #333;
+        }
+        h1, h2 {
+            color: #1a237e;
+        }
+        .welcome {
+            background-color: #e8f5e9;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .joke-box {
+            margin-bottom: 15px;
+            padding: 15px;
+            border: 2px solid #4caf50;
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .copy-btn:hover {
+            background-color: #388e3c;
+        }
+        #search {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            background-color: #1e88e5;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        button:hover {
+            background-color: #1565c0;
+        }
+        #random-joke, #joke-of-the-day {
+            margin: 20px 0;
+            padding: 15px;
+            border: 2px dashed #ff9800;
+            border-radius: 10px;
+            background-color: #fff3e0;
+        }
+        details {
+            margin-bottom: 15px;
+        }
+        summary {
+            cursor: pointer;
+            font-weight: bold;
+            background-color: #42a5f5;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .note {
+            font-style: italic;
+            color: #555;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="welcome">
+        <h1>Tech Jokes for Everyone</h1>
+        <p>Hey, I’m Alex! I love tech and laughing, so I made this page full of silly tech jokes. It’s simple—just scroll, click, and enjoy! Use the search bar or buttons to find your favorites. Hope you smile!</p>
+    </div>
+
+    <h2>Joke of the Day</h2>
+    <div id="joke-of-the-day">Check back every day for a new laugh!</div>
+
+    <input type="text" id="search" placeholder="Search for a joke (like 'phone' or 'code')..." onkeyup="searchJokes()">
+
+    <h2>Pick a Topic</h2>
+    <button onclick="filterJokes('all')">All Jokes</button>
+    <button onclick="filterJokes('everyday')">Everyday Tech</button>
+    <button onclick="filterJokes('code')">Coding Fun</button>
+    <button onclick="filterJokes('systems')">Systems & OS</button>
+    <button onclick="filterJokes('games')">Gaming Giggles</button>
+    <button onclick="filterJokes('it')">IT Life</button>
+    <button onclick="filterJokes('wifi')">Wi-Fi Puns</button>
+    <button onclick="showAll()">Show Everything</button>
+
+    <h2>Random Laugh</h2>
+    <div id="random-joke">Click below for a surprise joke!</div>
+    <button onclick="showRandomJoke()">Grab a Random Joke</button>
+
+    <details id="everyday">
+        <summary>Everyday Tech</summary>
+        <p class="note">Tech is everywhere—here’s some fun about the stuff we use every day!</p>
+        <div class="joke-box" data-category="everyday">Why did the phone wear glasses? It lost its contacts! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
+        <div class="joke-box" data-category="everyday">What’s a spider’s favorite hobby? Making websites! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
+        <div class="joke-box" data-category="everyday">Why did the computer go to the doctor? It caught a virus! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
+        <div class="joke-box" data-category="everyday">My autocorrect is driving me nuts—it can go to heck! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
+        <div class="joke-box" data-category="everyday">Why was the TV shy? It didn’t want to stream itself! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
+        <div class="joke-box" data-category="everyday">What’s the biggest lie ever? “I agree to the terms.” <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
+        <div class="joke-box" data-category="everyday">Why was the laptop tired? Too many sleep mode naps! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
+    </details>
+
+    <details id="code">
+        <summary>Coding Fun</summary>
+        <p class="note">Coders, this one’s for you—laugh at bugs and bits with me!</p>
+        <div class="joke-box" data-category="code">Why don’t coders like light? It attracts bugs! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
+        <div class="joke-box" data-category="code">Why was the coder sad? He couldn’t ‘null’ his tears! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
+        <div class="joke-box" data-category="code">What’s a coder’s favorite song? Anything by Dell! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
+        <div class="joke-box" data-category="code">Why do coders love Halloween? Oct 31 is Dec 25! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
+        <div class="joke-box" data-category="code">How do you cheer up a code bug? Just console it! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
+        <div class="joke-box" data-category="code">Why was the coder broke? He cleared his cash—oops, cache! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
+        <div class="joke-box" data-category="code">What’s 10 in binary? Only coders get this one! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
+        <div class="joke-box" data-category="code">Why don’t coders fix lights? That’s hardware’s job! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
+    </details>
+
+    <details id="systems">
+        <summary>Systems & OS</summary>
+        <p class="note">Windows, Mac, Linux—whatever you use, these are for you!</p>
+        <div class="joke-box" data-category="systems">Why’s Microsoft Word famous? Good word of mouth! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
+        <div class="joke-box" data-category="systems">Why are Mac fans calm? It’s an a-peeling system! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
+        <div class="joke-box" data-category="systems">Why don’t vampires use Windows? Too many openings! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
+        <div class="joke-box" data-category="systems">Why’s Linux free? It loves to share the code! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
+        <div class="joke-box" data-category="systems">Would an Apple car have Windows? Think about it! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
+    </details>
+
+    <details id="games">
+        <summary>Gaming Giggles</summary>
+        <p class="note">Gamers, level up your laughs with these silly ones!</p>
+        <div class="joke-box" data-category="games">Why’d the game tie? Time for a Wii-match! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
+        <div class="joke-box" data-category="games">How do you cheer an Xbox? Give it a big console! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
+        <div class="joke-box" data-category="games">Why’s Mario offline? He fears the browsers! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
+        <div class="joke-box" data-category="games">Why’d the gamer quit work? More time to play! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
+        <div class="joke-box" data-category="games">What’s a game boss’s job? To crash your fun! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
+    </details>
+
+    <details id="it">
+        <summary>IT Life</summary>
+        <p class="note">IT folks keep the world running—here’s some fun for them!</p>
+        <div class="joke-box" data-category="it">Why’d the IT guy call? To fix a one-eyed crash! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
+        <div class="joke-box" data-category="it">What’s an ex-hacker’s club? Double Anonymous! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
+        <div class="joke-box" data-category="it">Why’d the IT guy split up? Too many connections! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
+        <div class="joke-box" data-category="it">Why’s IT slow? Reboot fixes everything! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
+    </details>
+
+    <details id="wifi">
+        <summary>Wi-Fi Puns</summary>
+        <p class="note">Wi-Fi keeps us online—let’s laugh at it too!</p>
+        <div class="joke-box" data-category="wifi">Why’s the Wi-Fi slow? It’s buffering vampires! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
+        <div class="joke-box" data-category="wifi">My Wi-Fi password? 12345678—it’s a trick! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
+        <div class="joke-box" data-category="wifi">What’d the router say? “Ouch, my IP hurts!” <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
+        <div class="joke-box" data-category="wifi">Why’s Wi-Fi moody? Too many dropped signals! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
+    </details>
+
+    <script>
+        let currentTopic = 'all';
+        let searchWord = '';
+
+        function updateJokes() {
+            let jokes = document.querySelectorAll('.joke-box');
+            let sections = document.querySelectorAll('details');
+            jokes.forEach(function(joke) {
+                let jokeTopic = joke.getAttribute('data-category');
+                let jokeText = joke.innerText.toLowerCase();
+                let topicMatch = (currentTopic === 'all' || currentTopic === jokeTopic);
+                let searchMatch = (searchWord === '' || jokeText.includes(searchWord));
+                if (topicMatch && searchMatch) {
+                    joke.style.display = 'block';
+                } else {
+                    joke.style.display = 'none';
+                }
+            });
+            sections.forEach(function(section) {
+                let visibleJokes = section.querySelectorAll('.joke-box:not([style*="display: none"])');
+                section.open = visibleJokes.length > 0;
+            });
+        }
+
+        function filterJokes(topic) {
+            currentTopic = topic;
+            updateJokes();
+        }
+
+        function searchJokes() {
+            searchWord = document.getElementById('search').value.toLowerCase();
+            updateJokes();
+        }
+
+        function showAll() {
+            currentTopic = 'all';
+            searchWord = '';
+            document.getElementById('search').value = '';
+            updateJokes();
+        }
+
+        function showRandomJoke() {
+            let jokes = document.querySelectorAll('.joke-box');
+            let visibleJokes = Array.from(jokes).filter(joke => joke.style.display !== 'none');
+            if (visibleJokes.length > 0) {
+                let randomPick = Math.floor(Math.random() * visibleJokes.length);
+                document.getElementById('random-joke').innerText = visibleJokes[randomPick].innerText;
+            } else {
+                document.getElementById('random-joke').innerText = 'No jokes match your search!';
+            }
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Copied your joke!');
+            });
+        }
+
+        function dailyJoke() {
+            let jokes = document.querySelectorAll('.joke-box');
+            let today = new Date();
+            let dayNum = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
+            let pick = dayNum % jokes.length;
+            document.getElementById('joke-of-the-day').innerText = jokes[pick].innerText;
+        }
+
+        updateJokes();
+        dailyJoke();
+    </script>
+</body>
+</html>
