@@ -34,39 +34,65 @@ Before you begin, ensure you have:
 ### Step 1: Install and Configure Nginx
 
 # Install Nginx
+Run Command:
+```
 sudo dnf -y install nginx
+```
 
 # Start and enable Nginx
+Run Commands
+```
 sudo systemctl start nginx
 sudo systemctl enable nginx
+```
 
 # Verify status
+Run Command:
+```
 systemctl status nginx
+```
 
-# Configure firewall
+# Configure the firewall
+Run Commands:
+```
 sudo firewall-cmd --permanent --add-service=http
 sudo firewall-cmd --permanent --add-service=https
 sudo firewall-cmd --reload
+```
 
-Step 2: Set Up the Website
+### Step 2: Set Up the Website
+
 # Create project directory
+Run Commands:
+```
 sudo mkdir -p /usr/share/nginx/html/myfunwebsite
 cd /usr/share/nginx/html/myfunwebsite
+```
 
 # Create main file (add your HTML/CSS/JS here)
+Run Command:
+```
 sudo vim index.html
+```
 
 # Set permissions
+Run Commands:
+```
 sudo chown -R $USER:$USER /usr/share/nginx/html/myfunwebsite
 sudo chmod -R 755 /usr/share/nginx/html/myfunwebsite
+```
 
-# Create symbolic link
+# Create a symbolic link
+Run Commands:
+```
 sudo ln -s /usr/share/nginx/html/myfunwebsite ~
-Step 3: Set Up Version Control with Git
+```
+
+### Step 3: Set Up Version Control with Git
 
 # Customization
 Modify:
-1. jokes array in JavaScript
+1. Joke array in JavaScript
 2. Gradient colors in CSS (@keyframes gradient)
 3. Confetti emojis in party mode
 4. Overall styling in CSS
@@ -80,30 +106,41 @@ Modify:
 
 # Best Practices
 Enable HTTPS:
-    -sudo dnf install certbot python3-certbot-nginx
-    -sudo certbot --nginx -d yourdomain.com
-    
+    Run Commands:
+```
+        -sudo dnf install certbot python3-certbot-nginx
+        -sudo certbot --nginx -d yourdomain.com
+```  
 # Regular Backups:
+Run Commands:
+```
 -tar -czvf website-backup.tar.gz /usr/share/nginx/html/myfunwebsite
+```
 
 # Monitor Logs:
+Run Commands:
+```
 -tail -f /var/log/nginx/access.log
 -tail -f /var/log/nginx/error.log
+```
 
 # Keep System Updated:
+Run Commands:
+```
 -sudo dnf update -y && sudo dnf upgrade -y
+```
 
 # Contributing
 1. Fork the repository
 2. Create feature branch (git checkout -b feature/new-feature)
 3. Commit changes (git commit -m 'Add new feature')
 4. Push to branch (git push origin feature/new-feature)
-5. Open pull request
+5. Open a pull request
 
-For major changes, please open an issue first to discuss.
+For major changes, please open an issue to discuss them first.
 
 # License
-This project is licensed under the MIT License - see LICENSE file for details.
+This project is licensed under the MIT License - see the LICENSE file for details.
 
 Key improvements:
 1. Removed all emojis while maintaining visual structure
