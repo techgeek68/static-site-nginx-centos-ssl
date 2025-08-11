@@ -1,6 +1,6 @@
 # My Fun Website
 
-Welcome to **My Fun Static Website**! This project is a lively, interactive web page built with HTML, CSS, and JavaScript, deployed on a CentOS 10 server with Nginx. Featuring animated backgrounds, a joke generator, and party mode, it demonstrates professional web development practices.
+Welcome to **My Fun Static Website**! This project is a lively, interactive web page built with HTML, CSS, and JavaScript, deployed on a CentOS 10 server with Nginx HTTP web server. Featuring animated backgrounds, a joke generator, and party mode, it demonstrates professional web development practices.
 
 ## Features
 
