@@ -6,7 +6,7 @@ To quickly set up Nginx static hosting with SSL on CentOS, use the provided `set
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/techgeek68/Static-Website-Hosting-on-CentOS-Nginx.git
+   git clone https://github.com/techgeek68/static-site-nginx-centos-ssl.git
    cd Static-Website-Hosting-on-CentOS-Nginx
    ```
 
