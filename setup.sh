@@ -1,3 +1,7 @@
+#For local deployment, comment out or remove the Certbot/SSL lines.
+
+#For public hosting, remember to replace example.com and www.example.com with your actual domain name.
+
 #!/bin/bash
 
 # Install EPEL repository and Nginx
