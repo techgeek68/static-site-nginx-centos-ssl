@@ -22,8 +22,50 @@ sudo firewall-cmd --reload
 # Install Certbot
 sudo yum install certbot python3-certbot-nginx -y
 
+
 # Obtain SSL certificate (replace example.com with your domain)
-sudo certbot --nginx -d example.com -d www.example.com
+
+# Option 1: Use Your Real Domain Name: If you have an actual domain, replace `example.com` with your real domain
+```bash
+sudo certbot --nginx -d yourdomain.com -d www.yourdomain.com
+```
+
+# Requirements:
+  - Your domain must point to your server's public IP address (DNS A records)
+  - Your server must be accessible from the internet on ports 80 and 443
+  - The domain must be a valid, registered domain
+
+
+# Option 2: Use Let's Encrypt Staging Server (For Testing): If you're just testing the setup, use the staging server
+
+```bash
+sudo certbot --nginx -d example.com -d www.example.com --staging
+```
+
+Note: This will issue a test certificate that browsers won't trust, but it's useful for testing your configuration.
+
+# Option 3: Create a Self Signed Certificate (For Local/Development) If this is for local development or testing:
+
+
+# Create self-signed certificate
+sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+  -keyout /etc/ssl/private/nginx-selfsigned.key \
+  -out /etc/ssl/certs/nginx-selfsigned.crt \
+  -subj "/C=US/ST=State/L=City/O=Organization/CN=example.com"
+
+# Then manually configure nginx to use it
+sudo vi /etc/nginx/nginx.conf
+
+Add to your server block:
+```nginx
+listen 443 ssl;
+ssl_certificate /etc/ssl/certs/nginx-selfsigned.crt;
+ssl_certificate_key /etc/ssl/private/nginx-selfsigned.key;
+```
+
+# Then reload nginx:
+sudo nginx -t
+sudo systemctl reload nginx
 
 # Set up automatic renewal
 echo "0 3 * * * root certbot renew --quiet" | sudo tee -a /etc/crontab
