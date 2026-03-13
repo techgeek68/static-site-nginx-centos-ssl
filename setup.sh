@@ -4,8 +4,10 @@
 
 #!/bin/bash
 
-# Install EPEL repository and Nginx
+# Install extra packages for the Enterprise Linux (EPEL) repository on Red Hat based Linux distributions, such as CentOS, RHEL, Rocky Linux, and Oracle Linux.
 sudo yum install epel-release -y
+
+# Install EPEL repository and Nginx
 sudo yum install nginx -y
 
 # Start and enable Nginx
