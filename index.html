@@ -1,250 +1,942 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tech Jokes for Everyone</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 20px;
-            background: linear-gradient(to bottom, #b3e5fc, #ffffff);
-            color: #333;
-        }
-        h1, h2 {
-            color: #1a237e;
-        }
-        .welcome {
-            background-color: #e8f5e9;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
-        .joke-box {
-            margin-bottom: 15px;
-            padding: 15px;
-            border: 2px solid #4caf50;
-            border-radius: 10px;
-            background-color: #fff;
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-            position: relative;
-        }
-        .copy-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: #4caf50;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .copy-btn:hover {
-            background-color: #388e3c;
-        }
-        #search {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            font-size: 16px;
-        }
-        button {
-            padding: 10px 20px;
-            margin: 5px;
-            border: none;
-            border-radius: 5px;
-            background-color: #1e88e5;
-            color: white;
-            cursor: pointer;
-            font-size: 14px;
-        }
-        button:hover {
-            background-color: #1565c0;
-        }
-        #random-joke, #joke-of-the-day {
-            margin: 20px 0;
-            padding: 15px;
-            border: 2px dashed #ff9800;
-            border-radius: 10px;
-            background-color: #fff3e0;
-        }
-        details {
-            margin-bottom: 15px;
-        }
-        summary {
-            cursor: pointer;
-            font-weight: bold;
-            background-color: #42a5f5;
-            color: white;
-            padding: 10px;
-            border-radius: 5px;
-        }
-        .note {
-            font-style: italic;
-            color: #555;
-            margin-bottom: 10px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tech Jokes for Everyone</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #e8f4fa;
+      color: #1a3a4a;
+      line-height: 1.55;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 3rem;
+    }
+
+    /* -- Header -- */
+    .intro {
+      background: linear-gradient(135deg, #87ceeb, #5bb8d9);
+      border-radius: 14px;
+      padding: 2rem 2rem 1.75rem;
+      margin-bottom: 2rem;
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(91,184,217,.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .intro::before {
+      content: '';
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      background: rgba(255,255,255,.1);
+      border-radius: 50%;
+      top: -60px;
+      right: -40px;
+    }
+
+    .intro h1 {
+      font-size: 1.65rem;
+      margin-bottom: .4rem;
+      position: relative;
+    }
+
+    .intro p {
+      color: rgba(255,255,255,.88);
+      font-size: .92rem;
+      max-width: 560px;
+      position: relative;
+    }
+
+    /* -- Stats bar -- */
+    .stats {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.75rem;
+      flex-wrap: wrap;
+    }
+
+    .stat-card {
+      flex: 1;
+      min-width: 120px;
+      background: #fff;
+      border-radius: 10px;
+      padding: .85rem 1rem;
+      text-align: center;
+      box-shadow: 0 1px 6px rgba(0,0,0,.06);
+      border: 1px solid #d0eaf5;
+    }
+
+    .stat-card .num {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #2e9ac4;
+      display: block;
+    }
+
+    .stat-card .label {
+      font-size: .73rem;
+      color: #6b9ab5;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      font-weight: 600;
+    }
+
+    /* -- Daily joke -- */
+    .daily {
+      background: #fff;
+      border-left: 4px solid #5bb8d9;
+      border-radius: 10px;
+      padding: 1.1rem 1.4rem;
+      margin-bottom: 1.75rem;
+      font-size: .95rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,.05);
+      cursor: pointer;
+      transition: transform .15s, box-shadow .15s;
+    }
+
+    .daily:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 3px 12px rgba(91,184,217,.2);
+    }
+
+    .daily strong { color: #2e9ac4; }
+    .daily .hint { font-size: .75rem; color: #9cc; margin-top: .3rem; }
+
+    /* -- Search -- */
+    .search-wrap {
+      position: relative;
+      margin-bottom: 1.25rem;
+    }
+
+    .search-bar {
+      width: 100%;
+      padding: .75rem 1rem .75rem 2.5rem;
+      font-size: .95rem;
+      border: 2px solid #c4dfe6;
+      border-radius: 10px;
+      background: #fff;
+      transition: border-color .15s, box-shadow .15s;
+    }
+
+    .search-bar:focus {
+      outline: none;
+      border-color: #5bb8d9;
+      box-shadow: 0 0 0 3px rgba(91,184,217,.15);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: .85rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #9cc;
+      font-size: .95rem;
+      pointer-events: none;
+    }
+
+    .search-count {
+      position: absolute;
+      right: .85rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: .72rem;
+      color: #9cc;
+      font-weight: 600;
+    }
+
+    /* -- Topics -- */
+    h2 {
+      font-size: 1.05rem;
+      color: #2a6f8a;
+      margin-bottom: .6rem;
+    }
+
+    .topics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 1.75rem;
+    }
+
+    .topic-btn {
+      padding: .4rem .9rem;
+      font-size: .8rem;
+      font-weight: 600;
+      border: 1.5px solid #b8dae8;
+      border-radius: 20px;
+      background: #fff;
+      color: #4a8ea8;
+      cursor: pointer;
+      transition: all .15s;
+      position: relative;
+    }
+
+    .topic-btn:hover { border-color: #5bb8d9; color: #2e9ac4; background: #edf7fb; }
+
+    .topic-btn.active {
+      background: #5bb8d9;
+      color: #fff;
+      border-color: #5bb8d9;
+      box-shadow: 0 2px 8px rgba(91,184,217,.3);
+    }
+
+    .topic-btn .count {
+      display: inline-block;
+      background: rgba(0,0,0,.08);
+      border-radius: 10px;
+      padding: 0 .4rem;
+      font-size: .68rem;
+      margin-left: .3rem;
+    }
+
+    .topic-btn.active .count { background: rgba(255,255,255,.25); }
+
+    /* -- Random section -- */
+    .random-box {
+      background: #fff;
+      border: 1px solid #c4dfe6;
+      border-radius: 10px;
+      padding: 1.1rem 1.4rem;
+      margin-bottom: .65rem;
+      min-height: 2.6rem;
+      font-size: .95rem;
+      color: #2a6f8a;
+      box-shadow: 0 1px 4px rgba(0,0,0,.04);
+      transition: all .25s;
+    }
+
+    .random-box.pop {
+      background: #edf7fb;
+      transform: scale(1.01);
+    }
+
+    .random-trigger {
+      display: inline-block;
+      padding: .55rem 1.2rem;
+      background: linear-gradient(135deg, #5bb8d9, #4aa3c5);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: .85rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-bottom: 2rem;
+      transition: all .15s;
+      box-shadow: 0 2px 8px rgba(91,184,217,.25);
+    }
+
+    .random-trigger:hover {
+      background: linear-gradient(135deg, #4aa3c5, #3990b0);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(91,184,217,.35);
+    }
+
+    .random-trigger:active { transform: translateY(0); }
+
+    /* -- Accordion groups -- */
+    .group {
+      margin-bottom: .6rem;
+      border-radius: 10px;
+      overflow: hidden;
+      background: #fff;
+      border: 1px solid #d0eaf5;
+      box-shadow: 0 1px 4px rgba(0,0,0,.04);
+    }
+
+    .group summary {
+      padding: .75rem 1.15rem;
+      font-weight: 600;
+      font-size: .9rem;
+      cursor: pointer;
+      background: #f0f8fc;
+      color: #2a6f8a;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      user-select: none;
+      transition: background .12s;
+    }
+
+    .group summary::-webkit-details-marker { display: none; }
+
+    .group summary::after {
+      content: '+';
+      font-size: 1.15rem;
+      color: #9cc;
+      font-weight: 400;
+      transition: transform .2s;
+    }
+
+    .group[open] summary::after { content: '−'; }
+    .group summary:hover { background: #e4f2f8; }
+
+    .group-body { padding: .5rem 1rem 1rem; }
+
+    .group-body .note {
+      font-size: .8rem;
+      color: #9cb8c8;
+      font-style: italic;
+      margin-bottom: .6rem;
+    }
+
+    /* -- Joke cards -- */
+    .joke {
+      padding: .7rem .9rem;
+      margin-bottom: .4rem;
+      background: #f5fbfd;
+      border-radius: 8px;
+      font-size: .9rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: .65rem;
+      transition: all .15s;
+      cursor: default;
+      border: 1px solid transparent;
+    }
+
+    .joke:last-child { margin-bottom: 0; }
+    .joke[hidden] { display: none; }
+
+    .joke:hover {
+      background: #eaf5fa;
+      border-color: #c4dfe6;
+      transform: translateX(3px);
+    }
+
+    .joke.liked { background: #dff3fb; border-color: #87ceeb; }
+
+    .joke span { flex: 1; }
+
+    .joke-actions {
+      display: flex;
+      gap: .35rem;
+      flex-shrink: 0;
+    }
+
+    .like-btn,
+    .copy-btn {
+      padding: .3rem .55rem;
+      font-size: .75rem;
+      font-weight: 600;
+      background: #e4eff5;
+      border: none;
+      border-radius: 6px;
+      color: #5b8fa8;
+      cursor: pointer;
+      transition: all .12s;
+      line-height: 1;
+    }
+
+    .like-btn:hover, .copy-btn:hover { background: #d0e6f0; }
+    .like-btn.active { background: #ff6b81; color: #fff; }
+    .copy-btn.copied { background: #2ecda7; color: #fff; }
+
+    /* -- Favorites panel -- */
+    .fav-panel {
+      background: #fff;
+      border: 1px solid #d0eaf5;
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.75rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,.04);
+      display: none;
+    }
+
+    .fav-panel.visible { display: block; }
+
+    .fav-panel h3 {
+      font-size: .9rem;
+      color: #2a6f8a;
+      margin-bottom: .5rem;
+    }
+
+    .fav-panel .empty { font-size: .82rem; color: #9cc; font-style: italic; }
+
+    .fav-list .fav-item {
+      padding: .45rem .7rem;
+      margin-bottom: .3rem;
+      background: #f5fbfd;
+      border-radius: 6px;
+      font-size: .85rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .fav-item .remove-fav {
+      background: none;
+      border: none;
+      color: #cc7;
+      cursor: pointer;
+      font-size: .85rem;
+      padding: .1rem .3rem;
+      border-radius: 4px;
+    }
+
+    .fav-item .remove-fav:hover { background: #fdeaea; color: #e55; }
+
+    .fav-toggle {
+      padding: .4rem .9rem;
+      font-size: .8rem;
+      font-weight: 600;
+      border: 1.5px solid #d0eaf5;
+      border-radius: 20px;
+      background: #fff;
+      color: #5b8fa8;
+      cursor: pointer;
+      transition: all .15s;
+      margin-bottom: 1.25rem;
+      display: inline-block;
+    }
+
+    .fav-toggle:hover { background: #edf7fb; border-color: #5bb8d9; }
+    .fav-toggle.has-favs { border-color: #ff6b81; color: #ff6b81; }
+
+    /* -- Dark mode toggle -- */
+    .mode-toggle {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 2px solid #b8dae8;
+      background: #fff;
+      cursor: pointer;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,.08);
+      transition: all .2s;
+      z-index: 60;
+    }
+
+    .mode-toggle:hover { transform: scale(1.08); border-color: #5bb8d9; }
+
+    /* -- Dark mode -- */
+    body.dark {
+      background: #0f1c24;
+      color: #c8dfe8;
+    }
+
+    body.dark .intro { background: linear-gradient(135deg, #1a4460, #1e5a7a); box-shadow: 0 4px 20px rgba(0,0,0,.3); }
+    body.dark .intro p { color: rgba(200,223,232,.75); }
+    body.dark .stat-card { background: #162a35; border-color: #1e3d4d; }
+    body.dark .stat-card .num { color: #5bb8d9; }
+    body.dark .stat-card .label { color: #5a8a9e; }
+    body.dark .daily { background: #162a35; border-color: #1e5a7a; }
+    body.dark .daily .hint { color: #4a7a8a; }
+    body.dark .search-bar { background: #162a35; border-color: #1e3d4d; color: #c8dfe8; }
+    body.dark .search-bar:focus { border-color: #5bb8d9; box-shadow: 0 0 0 3px rgba(91,184,217,.1); }
+    body.dark .search-count, body.dark .search-icon { color: #4a7a8a; }
+    body.dark h2 { color: #7ab8d0; }
+    body.dark .topic-btn { background: #162a35; border-color: #1e3d4d; color: #6aa0b8; }
+    body.dark .topic-btn:hover { background: #1a3545; border-color: #2a6f8a; }
+    body.dark .topic-btn.active { background: #1e5a7a; border-color: #1e5a7a; color: #fff; }
+    body.dark .topic-btn .count { background: rgba(255,255,255,.06); }
+    body.dark .topic-btn.active .count { background: rgba(255,255,255,.15); }
+    body.dark .random-box { background: #162a35; border-color: #1e3d4d; color: #7ab8d0; }
+    body.dark .random-box.pop { background: #1a3a4a; }
+    body.dark .random-trigger { background: linear-gradient(135deg, #1e5a7a, #2a7a9a); box-shadow: 0 2px 8px rgba(0,0,0,.3); }
+    body.dark .random-trigger:hover { background: linear-gradient(135deg, #2a7a9a, #3590b0); }
+    body.dark .group { background: #162a35; border-color: #1e3d4d; }
+    body.dark .group summary { background: #1a3040; color: #7ab8d0; }
+    body.dark .group summary::after { color: #4a7a8a; }
+    body.dark .group summary:hover { background: #1e3a4a; }
+    body.dark .joke { background: #1a3040; }
+    body.dark .joke:hover { background: #1e3a4a; border-color: #2a5a6a; }
+    body.dark .joke.liked { background: #1e3545; border-color: #2a6070; }
+    body.dark .like-btn, body.dark .copy-btn { background: #1e3d4d; color: #7ab8d0; }
+    body.dark .like-btn:hover, body.dark .copy-btn:hover { background: #2a5060; }
+    body.dark .like-btn.active { background: #cc4455; color: #fff; }
+    body.dark .copy-btn.copied { background: #22a885; color: #fff; }
+    body.dark .fav-panel { background: #162a35; border-color: #1e3d4d; }
+    body.dark .fav-panel h3 { color: #7ab8d0; }
+    body.dark .fav-list .fav-item { background: #1a3040; }
+    body.dark .fav-item .remove-fav { color: #7a8a6a; }
+    body.dark .fav-item .remove-fav:hover { background: #3a2020; color: #e55; }
+    body.dark .fav-toggle { background: #162a35; border-color: #1e3d4d; color: #6aa0b8; }
+    body.dark .fav-toggle:hover { background: #1a3545; }
+    body.dark .fav-toggle.has-favs { border-color: #cc4455; color: #cc4455; }
+    body.dark .mode-toggle { background: #162a35; border-color: #1e3d4d; }
+    body.dark .mode-toggle:hover { border-color: #5bb8d9; }
+    body.dark .toast { background: #fff; color: #1a3a4a; }
+    body.dark footer { color: #3a5a6a; }
+
+    /* -- Toast -- */
+    .toast {
+      position: fixed;
+      bottom: 1.25rem;
+      right: 1.25rem;
+      background: #1a3a4a;
+      color: #fff;
+      padding: .55rem 1.2rem;
+      border-radius: 8px;
+      font-size: .82rem;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: all .25s;
+      pointer-events: none;
+      z-index: 50;
+    }
+
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    /* -- Scroll to top -- */
+    .scroll-top {
+      position: fixed;
+      bottom: 1.25rem;
+      left: 1.25rem;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: none;
+      background: #5bb8d9;
+      color: #fff;
+      font-size: 1rem;
+      cursor: pointer;
+      box-shadow: 0 2px 10px rgba(91,184,217,.3);
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all .25s;
+      pointer-events: none;
+      z-index: 50;
+    }
+
+    .scroll-top.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .scroll-top:hover { background: #4aa3c5; transform: translateY(-2px); }
+
+    body.dark .scroll-top { background: #1e5a7a; box-shadow: 0 2px 10px rgba(0,0,0,.3); }
+
+    footer {
+      text-align: center;
+      padding-top: 2.5rem;
+      font-size: .78rem;
+      color: #9cc;
+    }
+
+    /* -- Mobile -- */
+    @media (max-width: 520px) {
+      .container { padding: 1.25rem 1rem 2rem; }
+      .intro { padding: 1.4rem; }
+      .intro h1 { font-size: 1.35rem; }
+      .stats { gap: .5rem; }
+      .stat-card { padding: .6rem .7rem; }
+      .stat-card .num { font-size: 1.2rem; }
+      .joke { flex-direction: column; align-items: flex-start; gap: .4rem; }
+      .joke-actions { align-self: flex-end; }
+    }
+  </style>
 </head>
 <body>
-    <div class="welcome">
-        <h1>Tech Jokes for Everyone</h1>
-        <p>Hey, I’m Alex! I love tech and laughing, so I made this page full of silly tech jokes. It’s simple—just scroll, click, and enjoy! Use the search bar or buttons to find your favorites. Hope you smile!</p>
+
+<button class="mode-toggle" id="mode-btn" title="Toggle dark mode">🌙</button>
+<button class="scroll-top" id="scroll-btn" title="Back to top">↑</button>
+
+<div class="container">
+
+  <div class="intro">
+    <h1>Tech Jokes for Everyone</h1>
+    <p>Hey, I'm Alex! I love tech and laughing, so I put together this page full of silly tech jokes. Search, filter, like your favorites — hopefully something here makes you smile.</p>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stat-card"><span class="num" id="total-count">0</span><span class="label">Total Jokes</span></div>
+    <div class="stat-card"><span class="num" id="visible-count">0</span><span class="label">Showing</span></div>
+    <div class="stat-card"><span class="num" id="fav-count">0</span><span class="label">Favorites</span></div>
+    <div class="stat-card"><span class="num" id="cat-count">0</span><span class="label">Categories</span></div>
+  </div>
+
+  <!-- Daily -->
+  <div class="daily" id="daily-joke" title="Click to copy this joke">
+    <strong>Joke of the Day:</strong> Loading…
+    <div class="hint">Click to copy</div>
+  </div>
+
+  <!-- Search -->
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="search" class="search-bar" id="search" placeholder="Search jokes…" autocomplete="off">
+    <span class="search-count" id="search-count"></span>
+  </div>
+
+  <!-- Favorites toggle -->
+  <button class="fav-toggle" id="fav-toggle">❤ Favorites</button>
+
+  <div class="fav-panel" id="fav-panel">
+    <h3>Your Favorites</h3>
+    <div class="fav-list" id="fav-list">
+      <p class="empty">No favorites yet — click the ❤ on any joke.</p>
     </div>
+  </div>
 
-    <h2>Joke of the Day</h2>
-    <div id="joke-of-the-day">Check back every day for a new laugh!</div>
+  <!-- Topics -->
+  <h2>Topics</h2>
+  <div class="topics" id="topic-bar">
+    <button class="topic-btn active" data-topic="all">All <span class="count" id="cnt-all"></span></button>
+    <button class="topic-btn" data-topic="everyday">Everyday <span class="count" id="cnt-everyday"></span></button>
+    <button class="topic-btn" data-topic="code">Coding <span class="count" id="cnt-code"></span></button>
+    <button class="topic-btn" data-topic="systems">Systems <span class="count" id="cnt-systems"></span></button>
+    <button class="topic-btn" data-topic="games">Gaming <span class="count" id="cnt-games"></span></button>
+    <button class="topic-btn" data-topic="it">IT Life <span class="count" id="cnt-it"></span></button>
+    <button class="topic-btn" data-topic="wifi">Wi-Fi <span class="count" id="cnt-wifi"></span></button>
+  </div>
 
-    <input type="text" id="search" placeholder="Search for a joke (like 'phone' or 'code')..." onkeyup="searchJokes()">
+  <!-- Random -->
+  <h2>Random Joke</h2>
+  <div class="random-box" id="random-joke">Hit the button for a surprise!</div>
+  <button class="random-trigger" id="random-btn">🎲 Random joke</button>
 
-    <h2>Pick a Topic</h2>
-    <button onclick="filterJokes('all')">All Jokes</button>
-    <button onclick="filterJokes('everyday')">Everyday Tech</button>
-    <button onclick="filterJokes('code')">Coding Fun</button>
-    <button onclick="filterJokes('systems')">Systems & OS</button>
-    <button onclick="filterJokes('games')">Gaming Giggles</button>
-    <button onclick="filterJokes('it')">IT Life</button>
-    <button onclick="filterJokes('wifi')">Wi-Fi Puns</button>
-    <button onclick="showAll()">Show Everything</button>
+  <!-- Categories -->
 
-    <h2>Random Laugh</h2>
-    <div id="random-joke">Click below for a surprise joke!</div>
-    <button onclick="showRandomJoke()">Grab a Random Joke</button>
+  <details class="group" id="sec-everyday">
+    <summary>Everyday Tech</summary>
+    <div class="group-body">
+      <p class="note">Tech is everywhere — here's some fun about the stuff we all use.</p>
+      <div class="joke" data-cat="everyday"><span>Why did the phone wear glasses? It lost its contacts!</span><div class="joke-actions"><button class="like-btn">❤</button><button class="copy-btn">Copy</button></div></div>
+      <div class="joke" data-cat="everyday"><span>What's a spider's favorite hobby? Making websites!</span><div class="joke-actions"><button class="like-btn">❤</button><button class="copy-btn">Copy</button></div></div>
+      <div class="joke" data-cat="everyday"><span>Why did the computer go to the doctor? It caught a virus!</span><div class="joke-actions"><button class="like-btn">❤</button><button class="copy-btn">Copy</button></div></div>
+      <div class="joke" data-cat="everyday"><span>My autocorrect is driving me nuts — it can go to heck!</span><div class="joke-actions"><button class="like-btn">❤</button><button class="copy-btn">Copy</button></div></div>
+      <div class="joke" data-cat="everyday"><span>Why was the TV shy? It didn't want to stream itself!</span><div class="joke-actions"><button class="like-btn">❤</button><button class="copy-btn">Copy</button></div></div>
+      <div class="joke" data-cat="everyday"><span>What's the biggest lie ever? "I agree to the terms."</span><div class="joke-actions"><button class="like-btn">❤</button><button class="copy-btn">Copy</button></div></div>
+      <div class="joke" data-cat="everyday"><span>Why was the laptop tired? Too many sleep-mode naps!</span><div class="joke-actions"><button class="like-btn">❤</button><button class="copy-btn">Copy</button></div></div>
+    </div>
+  </details>
 
-    <details id="everyday">
-        <summary>Everyday Tech</summary>
-        <p class="note">Tech is everywhere—here’s some fun about the stuff we use every day!</p>
-        <div class="joke-box" data-category="everyday">Why did the phone wear glasses? It lost its contacts! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
-        <div class="joke-box" data-category="everyday">What’s a spider’s favorite hobby? Making websites! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
-        <div class="joke-box" data-category="everyday">Why did the computer go to the doctor? It caught a virus! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
-        <div class="joke-box" data-category="everyday">My autocorrect is driving me nuts—it can go to heck! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
-        <div class="joke-box" data-category="everyday">Why was the TV shy? It didn’t want to stream itself! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
-        <div class="joke-box" data-category="everyday">What’s the biggest lie ever? “I agree to the terms.” <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
-        <div class="joke-box" data-category="everyday">Why was the laptop tired? Too many sleep mode naps! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
-    </details>
+  <details class="group" id="sec-code">
+    <summary>Coding Fun</summary>
+    <div class="group-body">
+      <p class="note">Coders, this one's for you — laugh at bugs and bits.</p>
+      <div class="joke" data-cat="code"><span>Why don't coders like light? It attracts bugs!</span><div class="joke-actions"><button class="like-btn">❤</button><button class="copy-btn">Copy</button></div></div>
+      <div class="joke" data-cat="code"><span>Why was the coder sad? He couldn't 'null' his tears!</span><div class="joke-actions"><button class="like-btn">❤</button><button class="copy-btn">Copy</button></div></div>
+      <div class="joke" data-cat="code"><span>What's a coder's favorite song? Anything by Dell!</span><div class="joke-actions"><button class="like-btn">❤</button><button class="copy-btn">Copy</button></div></div>
+      <div class="joke" data-cat="code"><span>Why do coders love Halloween? Oct 31 is Dec 25!</span><div class="joke-actions"><button class="like-btn">❤</button><button class="copy-btn">Copy</button></div></div>
+      <div class="joke" data-cat="code"><span>How do you cheer up a code bug? Just console it!</span><div class="joke-actions"><button class="like-btn">❤</button><button class="copy-btn">Copy</button></div></div>
+      <div class="joke" data-cat="code"><span>Why was the coder broke? He cleared his cash — oops, cache!</span><div class="joke-actions"><button class="like-btn">❤</button><button class="copy-btn">Copy</button></div></div>
+      <div class="joke" data-cat="code"><span>What's 10 in binary? Only coders get this one!</span><div class="joke-actions"><button class="like-btn">❤</button><button class="copy-btn">Copy</button></div></div>
+      <div class="joke" data-cat="code"><span>Why don't coders fix lights? That's hardware's job!</span><div class="joke-actions"><button class="like-btn">❤</button><button class="copy-btn">Copy</button></div></div>
+    </div>
+  </details>
 
-    <details id="code">
-        <summary>Coding Fun</summary>
-        <p class="note">Coders, this one’s for you—laugh at bugs and bits with me!</p>
-        <div class="joke-box" data-category="code">Why don’t coders like light? It attracts bugs! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
-        <div class="joke-box" data-category="code">Why was the coder sad? He couldn’t ‘null’ his tears! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
-        <div class="joke-box" data-category="code">What’s a coder’s favorite song? Anything by Dell! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
-        <div class="joke-box" data-category="code">Why do coders love Halloween? Oct 31 is Dec 25! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
-        <div class="joke-box" data-category="code">How do you cheer up a code bug? Just console it! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
-        <div class="joke-box" data-category="code">Why was the coder broke? He cleared his cash—oops, cache! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
-        <div class="joke-box" data-category="code">What’s 10 in binary? Only coders get this one! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
-        <div class="joke-box" data-category="code">Why don’t coders fix lights? That’s hardware’s job! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
-    </details>
+  <details class="group" id="sec-systems">
+    <summary>Systems &amp; OS</summary>
+    <div class="group-body">
+      <p class="note">Windows, Mac, Linux — whatever you use, these are for you.</p>
+      <div class="joke" data-cat="systems"><span>Why's Microsoft Word famous? Good word of mouth!</span><div class="joke-actions"><button class="like-btn">❤</button><button class="copy-btn">Copy</button></div></div>
+      <div class="joke" data-cat="systems"><span>Why are Mac fans calm? It's an a-peeling system!</span><div class="joke-actions"><button class="like-btn">❤</button><button class="copy-btn">Copy</button></div></div>
+      <div class="joke" data-cat="systems"><span>Why don't vampires use Windows? Too many openings!</span><div class="joke-actions"><button class="like-btn">❤</button><button class="copy-btn">Copy</button></div></div>
+      <div class="joke" data-cat="systems"><span>Why's Linux free? It loves to share the code!</span><div class="joke-actions"><button class="like-btn">❤</button><button class="copy-btn">Copy</button></div></div>
+      <div class="joke" data-cat="systems"><span>Would an Apple car have Windows? Think about it!</span><div class="joke-actions"><button class="like-btn">❤</button><button class="copy-btn">Copy</button></div></div>
+    </div>
+  </details>
 
-    <details id="systems">
-        <summary>Systems & OS</summary>
-        <p class="note">Windows, Mac, Linux—whatever you use, these are for you!</p>
-        <div class="joke-box" data-category="systems">Why’s Microsoft Word famous? Good word of mouth! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
-        <div class="joke-box" data-category="systems">Why are Mac fans calm? It’s an a-peeling system! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
-        <div class="joke-box" data-category="systems">Why don’t vampires use Windows? Too many openings! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
-        <div class="joke-box" data-category="systems">Why’s Linux free? It loves to share the code! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
-        <div class="joke-box" data-category="systems">Would an Apple car have Windows? Think about it! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
-    </details>
+  <details class="group" id="sec-games">
+    <summary>Gaming Giggles</summary>
+    <div class="group-body">
+      <p class="note">Gamers, level up your laughs.</p>
+      <div class="joke" data-cat="games"><span>Why'd the game tie? Time for a Wii-match!</span><div class="joke-actions"><button class="like-btn">❤</button><button class="copy-btn">Copy</button></div></div>
+      <div class="joke" data-cat="games"><span>How do you cheer an Xbox? Give it a big console!</span><div class="joke-actions"><button class="like-btn">❤</button><button class="copy-btn">Copy</button></div></div>
+      <div class="joke" data-cat="games"><span>Why's Mario offline? He fears the browsers!</span><div class="joke-actions"><button class="like-btn">❤</button><button class="copy-btn">Copy</button></div></div>
+      <div class="joke" data-cat="games"><span>Why'd the gamer quit work? More time to play!</span><div class="joke-actions"><button class="like-btn">❤</button><button class="copy-btn">Copy</button></div></div>
+      <div class="joke" data-cat="games"><span>What's a game boss's job? To crash your fun!</span><div class="joke-actions"><button class="like-btn">❤</button><button class="copy-btn">Copy</button></div></div>
+    </div>
+  </details>
 
-    <details id="games">
-        <summary>Gaming Giggles</summary>
-        <p class="note">Gamers, level up your laughs with these silly ones!</p>
-        <div class="joke-box" data-category="games">Why’d the game tie? Time for a Wii-match! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
-        <div class="joke-box" data-category="games">How do you cheer an Xbox? Give it a big console! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
-        <div class="joke-box" data-category="games">Why’s Mario offline? He fears the browsers! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
-        <div class="joke-box" data-category="games">Why’d the gamer quit work? More time to play! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
-        <div class="joke-box" data-category="games">What’s a game boss’s job? To crash your fun! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
-    </details>
+  <details class="group" id="sec-it">
+    <summary>IT Life</summary>
+    <div class="group-body">
+      <p class="note">IT folks keep the world running — here's some fun for them.</p>
+      <div class="joke" data-cat="it"><span>Why'd the IT guy call? To fix a one-eyed crash!</span><div class="joke-actions"><button class="like-btn">❤</button><button class="copy-btn">Copy</button></div></div>
+      <div class="joke" data-cat="it"><span>What's an ex-hacker's club? Double Anonymous!</span><div class="joke-actions"><button class="like-btn">❤</button><button class="copy-btn">Copy</button></div></div>
+      <div class="joke" data-cat="it"><span>Why'd the IT guy split up? Too many connections!</span><div class="joke-actions"><button class="like-btn">❤</button><button class="copy-btn">Copy</button></div></div>
+      <div class="joke" data-cat="it"><span>Why's IT slow? Reboot fixes everything!</span><div class="joke-actions"><button class="like-btn">❤</button><button class="copy-btn">Copy</button></div></div>
+    </div>
+  </details>
 
-    <details id="it">
-        <summary>IT Life</summary>
-        <p class="note">IT folks keep the world running—here’s some fun for them!</p>
-        <div class="joke-box" data-category="it">Why’d the IT guy call? To fix a one-eyed crash! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
-        <div class="joke-box" data-category="it">What’s an ex-hacker’s club? Double Anonymous! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
-        <div class="joke-box" data-category="it">Why’d the IT guy split up? Too many connections! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
-        <div class="joke-box" data-category="it">Why’s IT slow? Reboot fixes everything! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
-    </details>
+  <details class="group" id="sec-wifi">
+    <summary>Wi-Fi Puns</summary>
+    <div class="group-body">
+      <p class="note">Wi-Fi keeps us online — let's laugh at it too.</p>
+      <div class="joke" data-cat="wifi"><span>Why's the Wi-Fi slow? It's buffering vampires!</span><div class="joke-actions"><button class="like-btn">❤</button><button class="copy-btn">Copy</button></div></div>
+      <div class="joke" data-cat="wifi"><span>My Wi-Fi password? 12345678 — it's a trick!</span><div class="joke-actions"><button class="like-btn">❤</button><button class="copy-btn">Copy</button></div></div>
+      <div class="joke" data-cat="wifi"><span>What'd the router say? "Ouch, my IP hurts!"</span><div class="joke-actions"><button class="like-btn">❤</button><button class="copy-btn">Copy</button></div></div>
+      <div class="joke" data-cat="wifi"><span>Why's Wi-Fi moody? Too many dropped signals!</span><div class="joke-actions"><button class="like-btn">❤</button><button class="copy-btn">Copy</button></div></div>
+    </div>
+  </details>
 
-    <details id="wifi">
-        <summary>Wi-Fi Puns</summary>
-        <p class="note">Wi-Fi keeps us online—let’s laugh at it too!</p>
-        <div class="joke-box" data-category="wifi">Why’s the Wi-Fi slow? It’s buffering vampires! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
-        <div class="joke-box" data-category="wifi">My Wi-Fi password? 12345678—it’s a trick! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
-        <div class="joke-box" data-category="wifi">What’d the router say? “Ouch, my IP hurts!” <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
-        <div class="joke-box" data-category="wifi">Why’s Wi-Fi moody? Too many dropped signals! <button class="copy-btn" onclick="copyToClipboard(this.parentElement.innerText)">Copy</button></div>
-    </details>
+  <footer>Made by Alex — because tech should be fun</footer>
 
-    <script>
-        let currentTopic = 'all';
-        let searchWord = '';
+</div>
 
-        function updateJokes() {
-            let jokes = document.querySelectorAll('.joke-box');
-            let sections = document.querySelectorAll('details');
-            jokes.forEach(function(joke) {
-                let jokeTopic = joke.getAttribute('data-category');
-                let jokeText = joke.innerText.toLowerCase();
-                let topicMatch = (currentTopic === 'all' || currentTopic === jokeTopic);
-                let searchMatch = (searchWord === '' || jokeText.includes(searchWord));
-                if (topicMatch && searchMatch) {
-                    joke.style.display = 'block';
-                } else {
-                    joke.style.display = 'none';
-                }
-            });
-            sections.forEach(function(section) {
-                let visibleJokes = section.querySelectorAll('.joke-box:not([style*="display: none"])');
-                section.open = visibleJokes.length > 0;
-            });
+<div class="toast" id="toast"></div>
+
+<script>
+(function () {
+  var topic     = 'all';
+  var query     = '';
+  var debounce  = null;
+  var toastT    = null;
+  var favorites = JSON.parse(localStorage.getItem('joke-favs') || '[]');
+
+  // DOM
+  var jokes     = document.querySelectorAll('.joke');
+  var groups    = document.querySelectorAll('.group');
+  var searchEl  = document.getElementById('search');
+  var topicBar  = document.getElementById('topic-bar');
+  var dailyEl   = document.getElementById('daily-joke');
+  var randomEl  = document.getElementById('random-joke');
+  var randomBtn = document.getElementById('random-btn');
+  var toastEl   = document.getElementById('toast');
+  var modeBtn   = document.getElementById('mode-btn');
+  var scrollBtn = document.getElementById('scroll-btn');
+  var favToggle = document.getElementById('fav-toggle');
+  var favPanel  = document.getElementById('fav-panel');
+  var favList   = document.getElementById('fav-list');
+  var searchCnt = document.getElementById('search-count');
+  var totalEl   = document.getElementById('total-count');
+  var visibleEl = document.getElementById('visible-count');
+  var favCntEl  = document.getElementById('fav-count');
+  var catCntEl  = document.getElementById('cat-count');
+
+  function text(joke) {
+    return joke.querySelector('span').textContent.trim();
+  }
+
+  // -- Toast --
+  function toast(msg) {
+    clearTimeout(toastT);
+    toastEl.textContent = msg;
+    toastEl.classList.add('show');
+    toastT = setTimeout(function () { toastEl.classList.remove('show'); }, 1800);
+  }
+
+  // -- Stats --
+  function updateStats() {
+    var visible = 0;
+    for (var i = 0; i < jokes.length; i++) {
+      if (!jokes[i].hidden) visible++;
+    }
+    totalEl.textContent   = jokes.length;
+    visibleEl.textContent = visible;
+    favCntEl.textContent  = favorites.length;
+    catCntEl.textContent  = groups.length;
+    searchCnt.textContent = query ? visible + ' found' : '';
+  }
+
+  // -- Category counts on pills --
+  function setCategoryCounts() {
+    var counts = { all: jokes.length };
+    for (var i = 0; i < jokes.length; i++) {
+      var c = jokes[i].dataset.cat;
+      counts[c] = (counts[c] || 0) + 1;
+    }
+    var btns = topicBar.querySelectorAll('.topic-btn');
+    for (var b = 0; b < btns.length; b++) {
+      var t = btns[b].dataset.topic;
+      var el = btns[b].querySelector('.count');
+      if (el && counts[t] != null) el.textContent = counts[t];
+    }
+  }
+
+  // -- Filter / search --
+  function refresh() {
+    var q = query.toLowerCase();
+    for (var i = 0; i < jokes.length; i++) {
+      var j       = jokes[i];
+      var t       = text(j).toLowerCase();
+      var catOk   = topic === 'all' || j.dataset.cat === topic;
+      var queryOk = !q || t.indexOf(q) !== -1;
+      j.hidden = !(catOk && queryOk);
+    }
+    for (var g = 0; g < groups.length; g++) {
+      var any = groups[g].querySelector('.joke:not([hidden])');
+      groups[g].open = !!any;
+    }
+    updateStats();
+  }
+
+  // -- Topics --
+  topicBar.addEventListener('click', function (e) {
+    var btn = e.target.closest('.topic-btn');
+    if (!btn) return;
+    topic = btn.dataset.topic;
+    var all = topicBar.querySelectorAll('.topic-btn');
+    for (var i = 0; i < all.length; i++) all[i].classList.remove('active');
+    btn.classList.add('active');
+    refresh();
+  });
+
+  // -- Search --
+  searchEl.addEventListener('input', function () {
+    clearTimeout(debounce);
+    debounce = setTimeout(function () {
+      query = searchEl.value;
+      refresh();
+    }, 160);
+  });
+
+  // -- Random --
+  randomBtn.addEventListener('click', function () {
+    var visible = [];
+    for (var i = 0; i < jokes.length; i++) {
+      if (!jokes[i].hidden) visible.push(jokes[i]);
+    }
+    if (!visible.length) {
+      randomEl.textContent = 'Nothing matches — try a different filter.';
+      return;
+    }
+    var pick = visible[Math.floor(Math.random() * visible.length)];
+    randomEl.textContent = text(pick);
+    randomEl.classList.add('pop');
+    setTimeout(function () { randomEl.classList.remove('pop'); }, 300);
+  });
+
+  // -- Copy --
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('.copy-btn');
+    if (!btn) return;
+    var joke = btn.closest('.joke') || btn.closest('.daily');
+    var t = joke ? text(joke) : '';
+    if (!t) return;
+    navigator.clipboard.writeText(t).then(function () {
+      btn.textContent = '✓';
+      btn.classList.add('copied');
+      toast('Copied!');
+      setTimeout(function () { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1200);
+    }, function () { toast('Copy failed'); });
+  });
+
+  // -- Daily joke (click to copy) --
+  dailyEl.addEventListener('click', function () {
+    var strong = dailyEl.querySelector('strong');
+    var full = dailyEl.textContent.replace(strong.textContent, '').replace('Click to copy', '').trim();
+    navigator.clipboard.writeText(full).then(function () { toast('Daily joke copied!'); });
+  });
+
+  // -- Likes / Favorites --
+  function isFaved(t) { return favorites.indexOf(t) !== -1; }
+
+  function saveFavs() {
+    localStorage.setItem('joke-favs', JSON.stringify(favorites));
+    updateStats();
+    renderFavs();
+    favToggle.classList.toggle('has-favs', favorites.length > 0);
+  }
+
+  function renderFavs() {
+    if (!favorites.length) {
+      favList.innerHTML = '<p class="empty">No favorites yet — click the ❤ on any joke.</p>';
+      return;
+    }
+    var html = '';
+    for (var i = 0; i < favorites.length; i++) {
+      html += '<div class="fav-item"><span>' + favorites[i] + '</span><button class="remove-fav" data-idx="' + i + '">✕</button></div>';
+    }
+    favList.innerHTML = html;
+  }
+
+  // restore like states on load
+  for (var i = 0; i < jokes.length; i++) {
+    var t = text(jokes[i]);
+    if (isFaved(t)) {
+      jokes[i].classList.add('liked');
+      jokes[i].querySelector('.like-btn').classList.add('active');
+    }
+  }
+
+  document.addEventListener('click', function (e) {
+    // like button
+    var likeBtn = e.target.closest('.like-btn');
+    if (likeBtn) {
+      var joke = likeBtn.closest('.joke');
+      var t = text(joke);
+      if (isFaved(t)) {
+        favorites.splice(favorites.indexOf(t), 1);
+        joke.classList.remove('liked');
+        likeBtn.classList.remove('active');
+        toast('Removed from favorites');
+      } else {
+        favorites.push(t);
+        joke.classList.add('liked');
+        likeBtn.classList.add('active');
+        toast('Added to favorites!');
+      }
+      saveFavs();
+      return;
+    }
+    // remove from fav panel
+    var removeBtn = e.target.closest('.remove-fav');
+    if (removeBtn) {
+      var idx = parseInt(removeBtn.dataset.idx);
+      var removed = favorites[idx];
+      favorites.splice(idx, 1);
+      // un-highlight the joke card too
+      for (var j = 0; j < jokes.length; j++) {
+        if (text(jokes[j]) === removed) {
+          jokes[j].classList.remove('liked');
+          jokes[j].querySelector('.like-btn').classList.remove('active');
         }
+      }
+      saveFavs();
+      toast('Removed');
+    }
+  });
 
-        function filterJokes(topic) {
-            currentTopic = topic;
-            updateJokes();
-        }
+  favToggle.addEventListener('click', function () {
+    favPanel.classList.toggle('visible');
+  });
 
-        function searchJokes() {
-            searchWord = document.getElementById('search').value.toLowerCase();
-            updateJokes();
-        }
+  // -- Dark mode --
+  var dark = localStorage.getItem('joke-dark') === '1';
+  if (dark) { document.body.classList.add('dark'); modeBtn.textContent = '☀️'; }
 
-        function showAll() {
-            currentTopic = 'all';
-            searchWord = '';
-            document.getElementById('search').value = '';
-            updateJokes();
-        }
+  modeBtn.addEventListener('click', function () {
+    dark = !dark;
+    document.body.classList.toggle('dark', dark);
+    modeBtn.textContent = dark ? '☀️' : '🌙';
+    localStorage.setItem('joke-dark', dark ? '1' : '0');
+  });
 
-        function showRandomJoke() {
-            let jokes = document.querySelectorAll('.joke-box');
-            let visibleJokes = Array.from(jokes).filter(joke => joke.style.display !== 'none');
-            if (visibleJokes.length > 0) {
-                let randomPick = Math.floor(Math.random() * visibleJokes.length);
-                document.getElementById('random-joke').innerText = visibleJokes[randomPick].innerText;
-            } else {
-                document.getElementById('random-joke').innerText = 'No jokes match your search!';
-            }
-        }
+  // -- Scroll to top --
+  window.addEventListener('scroll', function () {
+    scrollBtn.classList.toggle('visible', window.scrollY > 400);
+  });
 
-        function copyToClipboard(text) {
-            navigator.clipboard.writeText(text).then(() => {
-                alert('Copied your joke!');
-            });
-        }
+  scrollBtn.addEventListener('click', function () {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
 
-        function dailyJoke() {
-            let jokes = document.querySelectorAll('.joke-box');
-            let today = new Date();
-            let dayNum = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
-            let pick = dayNum % jokes.length;
-            document.getElementById('joke-of-the-day').innerText = jokes[pick].innerText;
-        }
+  // -- Joke of the day --
+  function initDaily() {
+    if (!jokes.length) return;
+    var now   = new Date();
+    var start = new Date(now.getFullYear(), 0, 0);
+    var day   = Math.floor((now - start) / 86400000);
+    var pick  = jokes[day % jokes.length];
+    dailyEl.querySelector('strong').nextSibling.textContent = ' ' + text(pick);
+  }
 
-        updateJokes();
-        dailyJoke();
-    </script>
+  // -- Boot --
+  setCategoryCounts();
+  refresh();
+  initDaily();
+  saveFavs();
+})();
+</script>
+
 </body>
 </html>
