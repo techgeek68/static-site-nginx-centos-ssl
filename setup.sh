@@ -46,6 +46,8 @@ Note: This will issue a test certificate that browsers won't trust, but it's use
 
 # Option 3: Create a Self Signed Certificate (For Local/Development) If this is for local development or testing:
 
+# Create the directory if it doesn't exist
+sudo mkdir -p /etc/ssl/private
 
 # Create self-signed certificate
 sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
@@ -53,10 +55,14 @@ sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
   -out /etc/ssl/certs/nginx-selfsigned.crt \
   -subj "/C=US/ST=State/L=City/O=Organization/CN=example.com"
 
+# Set proper permissions
+sudo chmod 600 /etc/ssl/private/nginx-selfsigned.key
+sudo chmod 644 /etc/ssl/certs/nginx-selfsigned.crt
+
 # Then manually configure nginx to use it
 sudo vi /etc/nginx/nginx.conf
 
-Add to your server block:
+# Add to your server block:
 ```nginx
 listen 443 ssl;
 ssl_certificate /etc/ssl/certs/nginx-selfsigned.crt;
